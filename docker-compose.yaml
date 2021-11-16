@@ -9,8 +9,6 @@ services:
     volumes:
         prometheus_data: {}
         grafana_data: {}
-
-
     prometheus:
         image: prom/prometheus:v2.1.0
         volumes:
@@ -19,7 +17,6 @@ services:
             - '--config.file=/etc/prometheus/prometheus.yaml'
         ports:
             - '8080:8080'
-  
      grafana:
          image: grafana/grafana
          volumes:
