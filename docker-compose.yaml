@@ -1,33 +1,32 @@
 version: '3.7'
 services:
- 
-     web:
-         build: .
-         ports:
-         - "8501:8501"
-         volumes:
-         - .:/code 
-     volumes:
-         prometheus_data: {}
-         grafana_data: {}
+    web:
+        build: .
+        ports:
+            - "8501:8501"
+        volumes:
+            - .:/code 
+    volumes:
+        prometheus_data: {}
+        grafana_data: {}
 
 
-     prometheus:
-         image: prom/prometheus:v2.1.0
-         volumes:
-             - prometheus.yaml:/etc/prometheus/prometheus.yaml
-         command:
-             - '--config.file=/etc/prometheus/prometheus.yaml'
-         ports:
-             - '8080:8080'
+    prometheus:
+        image: prom/prometheus:v2.1.0
+        volumes:
+            - prometheus.yaml:/etc/prometheus/prometheus.yaml
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yaml'
+        ports:
+            - '8080:8080'
   
-      grafana:
-          image: grafana/grafana
-          volumes:
+     grafana:
+         image: grafana/grafana
+         volumes:
              - grafana_data:/var/lib/grafana
-          environment:
+         environment:
              - GF_SECURITY_ADMIN_PASSWORD=pass
-          depends_on:
+         depends_on:
              - prometheus
-          ports:
+         ports:
              - '5000:5000'
