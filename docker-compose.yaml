@@ -6,9 +6,6 @@ version: '3.7'
          - "8501:8501"
          volumes:
          - .:/code 
-         
- version: '3.7'
-
  volumes:
      prometheus_data: {}
      grafana_data: {}
@@ -22,3 +19,14 @@ version: '3.7'
        - '--config.file=/etc/prometheus/prometheus.yaml'
      ports:
        - '8080:8080'
+ services:      
+   grafana:
+     image: grafana/grafana
+     volumes:
+         - grafana_data:/var/lib/grafana
+     environment:
+       - GF_SECURITY_ADMIN_PASSWORD=pass
+     depends_on:
+       - prometheus
+     ports:
+       - '5000:5000'
