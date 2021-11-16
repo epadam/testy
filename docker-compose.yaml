@@ -1,10 +1,45 @@
 version: '3.7'
+
+volumes:
+    prometheus_data: {}
+    grafana_data: {}
+
 services:
-    web:
-        build: .
-        ports:
-            - "8501:8501"
-        volumes:
-            - .:/code 
-    
+  prometheus:
+    image: prom/prometheus:v2.1.0
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
+      - ./alert_rules.yaml:/etc/prometheus/alert_rules.yaml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+    ports:
+      - '8080:8080'
+  grafana:
+    image: grafana/grafana
+    volumes:
+        - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=pass
+    depends_on:
+      - prometheus
+    ports:
+      - '5005:5005'
+  web:
+    build: .
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/code
+    depends_on:
+      - prometheus
+  alertmanager:
+    image: prom/alertmanager
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager.yaml/:/etc/alertmanager/alertmanager.yaml
+    restart: always
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yaml'
+      - '--storage.path=/alertmanager'
 
