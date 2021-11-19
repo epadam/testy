@@ -1,4 +1,4 @@
-from locust import TaskSet, task, Locust
+from locust import TaskSet, task, User
 
 
 class WebsiteTasks(TaskSet):
@@ -7,7 +7,7 @@ class WebsiteTasks(TaskSet):
         self.client.get('/')
 
 
-class WebsiteUser(Locust):
+class WebsiteUser(User):
     task_set = WebsiteTasks
     min_wait = 5000
     max_wait = 15000
