@@ -13,7 +13,7 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yaml'
     ports:
-      - '8080:8080'
+      - '9090:9090'
   grafana:
     image: grafana/grafana
     volumes:
@@ -23,7 +23,7 @@ services:
     depends_on:
       - prometheus
     ports:
-      - '5005:5005'
+      - '5000:5000'
   web:
     build: .
     ports:
