@@ -8,10 +8,10 @@ services:
   prometheus:
     image: prom/prometheus:v2.1.0
     volumes:
-      - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
-      - ./alert_rules.yaml:/etc/prometheus/alert_rules.yaml
+      #- ./prometheus.yaml:/etc/prometheus/prometheus.yaml
+      #- ./alert_rules.yaml:/etc/prometheus/alert_rules.yaml
     command:
-      - '--config.file=/etc/prometheus/prometheus.yaml'
+      #- '--config.file=/etc/prometheus/prometheus.yaml'
     ports:
       - '9090:9090'
   grafana:
